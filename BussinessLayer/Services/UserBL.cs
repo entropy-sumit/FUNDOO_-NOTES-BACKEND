@@ -17,7 +17,7 @@ namespace BussinessLayer.Services
         }
 
        
-        public User Registration(UserRegModel userRegModel)
+        public User Registration(UserRegModel userRegModel) // implementing interface
         {
             try
             {

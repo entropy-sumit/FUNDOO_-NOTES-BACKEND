@@ -6,6 +6,7 @@ namespace CommonLayer.Models
 {
     public class UserRegModel
     {
+        //model of signup
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -27,7 +27,7 @@ namespace RepositoryLayer.Services
                 newUser.Email = userRegModel.Email;
                 newUser.Password = userRegModel.Password;
 
-                fundooContext.UserTables.Add(newUser);
+                fundooContext.UserTables.Add(newUser); // adding user to db
                 int result = fundooContext.SaveChanges();
                 if (result > 0)
                 {
