@@ -33,7 +33,7 @@ namespace FundooNotes
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
-            services.AddTransient<IUserBL, UserBL>();
+            services.AddTransient<IUserBL, UserBL>(); //Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
             services.AddTransient<IUserRL, UserRL>();
 
         }
