@@ -24,7 +24,7 @@ namespace FundooNotes.Controllers
             try
             {
                 var result = userBL.Registration(userRegModel);
-                if (result != null)
+                if (result != null) 
                 {
                     return this.Ok(new { success = true, message = "Registration Successful", data = result });
                 }
@@ -36,6 +36,25 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
-    
+        [HttpPost("AllLogin")]
+        public IActionResult UserLogin(UserLoginmodel logindata)
+        {
+            try
+            {
+                var result = userBL.UserLogin(logindata);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Login Successful", data = result });
+                }
+                else
+                    return this.BadRequest(new { success = false, message = "Login Unsuccessful" });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
