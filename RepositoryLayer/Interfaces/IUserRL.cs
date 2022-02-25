@@ -9,6 +9,11 @@ namespace RepositoryLayer.Interfaces
     public interface IUserRL
     {
         public User Registration(UserRegModel userRegModel);
-       
+        /// <summary>
+        /// UserLogin for All login details
+        /// </summary>
+        /// <param name="user1"></param>
+        /// <returns></returns>
+        public LoginResponseModel UserLogin(UserLoginmodel info);
     }
 }
