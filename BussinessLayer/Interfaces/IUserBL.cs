@@ -11,6 +11,8 @@ namespace BussinessLayer.Interfaces
         public User Registration(UserRegModel userRegModel); // making method of return type user
 
         public LoginResponseModel UserLogin(UserLoginmodel info);
+        public string ForgetPassword(string email);
+        public bool ResetPassword(string email, string password, string confirmPassword);
 
     }
 }

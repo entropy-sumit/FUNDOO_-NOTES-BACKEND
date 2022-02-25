@@ -39,10 +39,10 @@ namespace CommonLayer.Models
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("sum.24.hours@gmail.com", "Adding@123"),
+                Credentials = new NetworkCredential("demoshubham4567@gmail.com", "Shubham@2312"),
                 EnableSsl = true,
             };
-            smtpClient.Send("sum.24.hours@gmail.com", JWT, Subject, Body);
+            smtpClient.Send("demoshubham4567@gmail.com", JWT, Subject, Body);
             messageQueue.BeginReceive();
         }
         public string DecodeJWT(string token)
