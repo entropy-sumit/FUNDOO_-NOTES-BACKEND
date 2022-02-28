@@ -9,6 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220228075903_Notes.cs" />
+    <Compile Remove="Migrations\20220228075903_Notes.Designer.cs" />
+    <Compile Remove="Migrations\20220228082644_Notes.cs" />
+    <Compile Remove="Migrations\20220228082644_Notes.Designer.cs" />
+    <Compile Remove="Migrations\20220228092642_NoteTables.cs" />
+    <Compile Remove="Migrations\20220228092642_NoteTables.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
