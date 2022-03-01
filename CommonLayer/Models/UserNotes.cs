@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLayer
+namespace CommonLayer.Models
 {
     public class UserNotes
     {
