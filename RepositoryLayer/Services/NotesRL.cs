@@ -24,7 +24,9 @@ namespace RepositoryLayer.Services
             try
             {
                 Notes newNotes = new Notes();
+                newNotes.NotesId = notes.NotesId;
                 newNotes.Title = notes.Title;
+                newNotes.Body = notes.Body;
                 newNotes.Reminder = notes.Reminder;
                 newNotes.Color = notes.Color;
                 newNotes.BgImage = notes.BgImage;
@@ -49,11 +51,40 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public UserNotes UpdateNotes(UserNotes notes, long UserId, long NotesId)
+        {
+            try
+            {
+                var UpdateNote = this.fundoocontext.Notes.Where(Y => Y.NotesId == NotesId).FirstOrDefault();
+                if (UpdateNote != null && UpdateNote.NotesId == UserId)
+                {
+                    UpdateNote.Title = notes.Title;
+                    
+                    UpdateNote.Reminder = notes.Reminder;
+                    UpdateNote.Color = notes.Color;
+                    UpdateNote.BgImage = notes.BgImage;
+                    UpdateNote.ModifiedTime= notes.ModifiedTime;
+                }
+                var result = this.fundoocontext.SaveChanges();
+                if (result > 0)
+                {
+                    return notes;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public IEnumerable<Notes> GetAllNotes()
         {
             return fundoocontext.Notes.ToList();
         }
 
-
+        public string UpdatesNotes(UserNotes updateusernotes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
