@@ -37,22 +37,25 @@ namespace FundooNotes
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
-            // services.AddAuthentication(x =>
-            // {
-            //     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            // })
-            //.AddJwtBearer(x =>
-            //{
-            //    x.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidIssuer = "localhost",
-            //        ValidAudience = "localhost"
-            //    };
-            //});
+            services.AddMemoryCache();
+
+            //forgotPassword
+           // services.AddAuthentication(x =>
+           // {
+           //     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+           //     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+           // })
+           //.AddJwtBearer(x =>
+           //{
+           //    x.TokenValidationParameters = new TokenValidationParameters
+           //    {
+           //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+           //        ValidateIssuer = true,
+           //        ValidateAudience = true,
+           //        ValidIssuer = "localhost",
+           //        ValidAudience = "localhost"
+           //    };
+           //});
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Welcome to FundooNotes" });
@@ -83,6 +86,7 @@ namespace FundooNotes
 
                 });
             });
+
             services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -104,8 +108,12 @@ namespace FundooNotes
                 };
 
             });
+            //user services
             services.AddTransient<IUserBL, UserBL>(); //Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
             services.AddTransient<IUserRL, UserRL>();
+            //notes services
+            services.AddTransient<INotesBL, NotesBL>();
+            services.AddTransient<INotesRL, NotesRL>();
 
         }
 
