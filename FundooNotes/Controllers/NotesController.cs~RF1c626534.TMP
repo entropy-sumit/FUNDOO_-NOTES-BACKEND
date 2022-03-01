@@ -15,7 +15,6 @@ namespace FundooNotes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class NotesController : ControllerBase
     {
         private readonly IMemoryCache memoryCache;
@@ -29,8 +28,8 @@ namespace FundooNotes.Controllers
             this.distributedCache = distributedCache;
             this.fundoocontext = fundoocontext;
         }
-        
-        [HttpPost("CreateNotes")]
+        [Authorize]
+        [HttpPost]
         public IActionResult GenerateNote(UserNotes notes)
         {
             long UserId = Convert.ToInt64(User.FindFirst("UserId").Value);
@@ -44,51 +43,6 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { Success = false, message = "New Node creation unsuccessful" });
                 }
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
-            }
-        }
-        [HttpPut("UpdateNotes")]
-
-        public IActionResult UpdatesNotes(UserNotes updateusernotes,long NotesId)
-        {
-            long UserId = Convert.ToInt64(User.FindFirst("UserId").Value);
-            try
-            {
-                UserNotes response = notesBL.UpdateNotes(updateusernotes, UserId, NotesId);
-                if (response != null)
-                {
-                    return this.Ok(new { Success = true, message = " Registration Deleted", Updated = response });
-                }
-                else
-                {
-                    return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
-            }
-
-        }
-
-        [HttpGet("AllNotes")]
-        public IActionResult GetAllNotes()
-        {
-            try
-            {
-                var noteResult = this.notesBL.GetAllNotes();
-                if (noteResult == null)
-                {
-                    return this.BadRequest(new { Success = false, message = " Notes records not found" });
-                }
-                else
-                {
-                    return this.Ok(new { Success = true, message = "Notes records found", notesdata = noteResult });
-                }
-                
             }
             catch (Exception ex)
             {
