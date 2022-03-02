@@ -8,8 +8,8 @@ namespace BussinessLayer.Interfaces
 {
     public interface INotesBL
     {
-        public bool GenerateNote(UserNotes notes, long UserId);
-        public UserNotes UpdateNotes(UserNotes notes, long UserId, long NotesId);
+        public bool GenerateNote(UserNotes notes, long userId);
+        public UserNotes UpdateNotes(UserNotes notes,long NotesId);
         public IEnumerable<Notes> GetAllNotes();
     }
 }

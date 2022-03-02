@@ -18,25 +18,25 @@ namespace FundooNotes.Controllers
     [Authorize]
     public class NotesController : ControllerBase
     {
-        private readonly IMemoryCache memoryCache;
-        public readonly FundooContext fundoocontext;
-        private readonly IDistributedCache distributedCache;
+        
+        
+       
         private readonly INotesBL notesBL;
-        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, FundooContext fundoocontext, IDistributedCache distributedCache)
+        public NotesController(INotesBL notesBL)
         {
             this.notesBL = notesBL;
-            this.memoryCache = memoryCache;
-            this.distributedCache = distributedCache;
-            this.fundoocontext = fundoocontext;
+            
+            
         }
         
         [HttpPost("CreateNotes")]
         public IActionResult GenerateNote(UserNotes notes)
         {
-            long UserId = Convert.ToInt64(User.FindFirst("UserId").Value);
+           
             try
             {
-                if (this.notesBL.GenerateNote(notes, UserId))
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if (this.notesBL.GenerateNote(notes,userId))
                 {
                     return this.Ok(new { Success = true, message = "New Note created successfully" });
                 }
@@ -52,15 +52,17 @@ namespace FundooNotes.Controllers
         }
         [HttpPut("UpdateNotes")]
 
-        public IActionResult UpdatesNotes(UserNotes updateusernotes,long NotesId)
+        public IActionResult UpdatesNotes(UserNotes notes,long NotesId)
         {
-            long UserId = Convert.ToInt64(User.FindFirst("UserId").Value);
+            
             try
             {
-                UserNotes response = notesBL.UpdateNotes(updateusernotes, UserId, NotesId);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+
+                UserNotes response = notesBL.UpdateNotes(notes, NotesId);
                 if (response != null)
                 {
-                    return this.Ok(new { Success = true, message = " Registration Deleted", Updated = response });
+                    return this.Ok(new { Success = true, message = " updated succes", Updated = response });
                 }
                 else
                 {

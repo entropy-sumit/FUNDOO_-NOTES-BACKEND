@@ -15,22 +15,22 @@ namespace BussinessLayer.Services
         {
             this.notesRL = notesRL;
         }
-        public bool GenerateNote(UserNotes notes, long UserId)
+        public bool GenerateNote(UserNotes notes, long userId)
         {
             try
             {
-                return notesRL.GenerateNote(notes, UserId);
+                return notesRL.GenerateNote(notes,userId);
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public UserNotes UpdateNotes(UserNotes notes, long UserId, long NotesId)
+        public UserNotes UpdateNotes(UserNotes notes,long NotesId)
         {
             try
             {
-                return notesRL.UpdateNotes(notes, UserId, NotesId);
+                return notesRL.UpdateNotes(notes, NotesId);
             }
             catch (Exception)
             {
@@ -43,6 +43,6 @@ namespace BussinessLayer.Services
             throw new NotImplementedException();
         }
 
-       
+      
     }
 }
