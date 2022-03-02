@@ -131,7 +131,60 @@ namespace RepositoryLayer.Services
             }
 
         }
+        public string Pinned(long NotesId)
+        {
+            try
+            {
+                var pinned = this.fundoocontext.Notes.Where(s => s.NotesId == NotesId).FirstOrDefault();
+                if (pinned.IsPinned == true)
+                {
+                    pinned.IsPinned = false;
+                    this.fundoocontext.SaveChanges();
+                    return "note pinned";
+                }
 
-       
+
+                else
+                {
+                    pinned.IsPinned = true;
+                    this.fundoocontext.SaveChanges();
+                    return "note is now unpinned";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public string TrashedNotes(long NotesId)
+        {
+            try
+            {
+                var trashed = this.fundoocontext.Notes.Where(s => s.NotesId == NotesId).FirstOrDefault();
+                if (trashed.Delete == true)
+                {
+                    trashed.Delete = false;
+                    this.fundoocontext.SaveChanges();
+                    return "notes recoverd";
+                }
+
+
+                else
+                {
+                    trashed.Delete = true;
+                    this.fundoocontext.SaveChanges();
+                    return "note is in trashed";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

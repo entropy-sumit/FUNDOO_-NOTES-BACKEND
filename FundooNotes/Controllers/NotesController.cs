@@ -137,6 +137,41 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-
+        [HttpPut("Pinned")]
+        public IActionResult Pinned(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notesBL.Pinned(NotesId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, message = result });
+                }
+                return this.BadRequest(new { Status = false, message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+        [HttpPut("TrashNotes")]
+        public IActionResult TrashedNotes(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notesBL.TrashedNotes(NotesId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, message = result });
+                }
+                return this.BadRequest(new { Status = false, message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
     }
 }

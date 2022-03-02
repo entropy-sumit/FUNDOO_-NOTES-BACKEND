@@ -14,5 +14,7 @@ namespace RepositoryLayer.Interfaces
         public IEnumerable<Notes> GetAllNotes(long UserId);
         public bool DeleteNotesOfUser(long NotesId);
         public string Archieve(long NotesId);
+        public string Pinned(long NotesId);
+        public string TrashedNotes(long NotesId);
     }
 }
