@@ -10,6 +10,7 @@ namespace BussinessLayer.Interfaces
     {
         public bool GenerateNote(UserNotes notes, long userId);
         public UserNotes UpdateNotes(UserNotes notes,long NotesId);
-        public IEnumerable<Notes> GetAllNotes();
+        public IEnumerable<Notes> GetAllNotes(long UserId);
+        public bool DeleteNotesOfUser(long NotesId);
     }
 }

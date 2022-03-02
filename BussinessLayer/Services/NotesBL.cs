@@ -37,12 +37,30 @@ namespace BussinessLayer.Services
                 throw;
             }
         }
-
-        public IEnumerable<Notes> GetAllNotes()
+        public IEnumerable<Notes> GetAllNotes(long UserId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return notesRL.GetAllNotes(UserId);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+        public bool DeleteNotesOfUser(long NotesId)
+        {
+            try
+            {
+                return this.notesRL.DeleteNotesOfUser(NotesId);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
 
-      
+
+
     }
 }
