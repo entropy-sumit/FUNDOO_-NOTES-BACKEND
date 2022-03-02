@@ -55,7 +55,7 @@ namespace RepositoryLayer.Migrations
                     ModifiedTime = table.Column<DateTime>(nullable: true),
                     Color = table.Column<string>(nullable: true),
                     BgImage = table.Column<string>(nullable: true),
-                    UserId = table.Column<long>(nullable: true)
+                    UserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,9 +65,9 @@ namespace RepositoryLayer.Migrations
                         column: x => x.UserId,
                         principalTable: "UserTables",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-             
+
             migrationBuilder.CreateIndex(
                 name: "IX_Notes_UserId",
                 table: "Notes",

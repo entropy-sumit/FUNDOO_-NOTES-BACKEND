@@ -9,8 +9,8 @@ namespace RepositoryLayer.Interfaces
     public interface INotesRL
     {
 
-        public bool GenerateNote(UserNotes notes, long UserId);
-        public UserNotes UpdateNotes(UserNotes notes, long UserId, long NotesId);
+        public bool GenerateNote(UserNotes notes, long userId);
+        public UserNotes UpdateNotes(UserNotes notes, long NotesId);
         IEnumerable<Notes> GetAllNotes();
     }
 }

@@ -19,12 +19,13 @@ namespace RepositoryLayer.Services
             this.fundoocontext = fundoocontext;
             _configure = configure;
         }
-        public bool GenerateNote(UserNotes notes, long UserId)
+        public bool GenerateNote(UserNotes notes,long userId)
         {
             try
             {
                 Notes newNotes = new Notes();
-                newNotes.NotesId = notes.NotesId;
+
+                newNotes.UserId = userId;
                 newNotes.Title = notes.Title;
                 newNotes.Body = notes.Body;
                 newNotes.Reminder = notes.Reminder;
@@ -32,7 +33,7 @@ namespace RepositoryLayer.Services
                 newNotes.BgImage = notes.BgImage;
                 newNotes.Archieve = notes.Archieve;
                 newNotes.IsPinned = notes.IsPinned;
-                newNotes.NotesId = UserId;
+                
                 newNotes.CreatedTime = notes.CreatedTime;
 
                 //Adding the data to database
@@ -51,17 +52,16 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        public UserNotes UpdateNotes(UserNotes notes, long UserId, long NotesId)
+        public UserNotes UpdateNotes(UserNotes notes, long NotesId)
         {
             try
             {
                 var UpdateNote = this.fundoocontext.Notes.Where(Y => Y.NotesId == NotesId).FirstOrDefault();
-                if (UpdateNote != null && UpdateNote.NotesId == UserId)
+                if (UpdateNote != null && UpdateNote.NotesId == NotesId)
                 {
                     UpdateNote.Title = notes.Title;
-                    
-                    UpdateNote.Reminder = notes.Reminder;
                     UpdateNote.Color = notes.Color;
+                    UpdateNote.Body = notes.Body;
                     UpdateNote.BgImage = notes.BgImage;
                     UpdateNote.ModifiedTime= notes.ModifiedTime;
                 }
@@ -82,9 +82,6 @@ namespace RepositoryLayer.Services
             return fundoocontext.Notes.ToList();
         }
 
-        public string UpdatesNotes(UserNotes updateusernotes)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

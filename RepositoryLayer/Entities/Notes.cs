@@ -22,6 +22,8 @@ namespace RepositoryLayer.Entities
         public string Color { get; set; }
         public string BgImage { get; set; }
         //Foreign key declaration
-        public User User { get; set; }
+        [ForeignKey("user")]
+        public long UserId { get; set; }
+        public virtual User user { get; set; }
     }
 }
