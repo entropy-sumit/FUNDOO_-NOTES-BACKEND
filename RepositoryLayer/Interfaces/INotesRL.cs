@@ -11,6 +11,7 @@ namespace RepositoryLayer.Interfaces
 
         public bool GenerateNote(UserNotes notes, long userId);
         public UserNotes UpdateNotes(UserNotes notes, long NotesId);
-        IEnumerable<Notes> GetAllNotes();
+        public IEnumerable<Notes> GetAllNotes(long UserId);
+        public bool DeleteNotesOfUser(long NotesId);
     }
 }

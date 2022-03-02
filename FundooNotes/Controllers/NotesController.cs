@@ -47,7 +47,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
+                return this.BadRequest(new { Status = false, Message = ex.InnerException.Message });
             }
         }
         [HttpPut("UpdateNotes")]
@@ -71,30 +71,52 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
 
         }
 
         [HttpGet("AllNotes")]
-        public IActionResult GetAllNotes()
+        public IActionResult GetAllNotes(long UserId)
         {
             try
             {
-                var noteResult = this.notesBL.GetAllNotes();
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var noteResult = this.notesBL.GetAllNotes(userId);
                 if (noteResult == null)
                 {
-                    return this.BadRequest(new { Success = false, message = " Notes records not found" });
+                    return this.BadRequest(new { Success = false, message = " Notes records not found of the user" });
                 }
                 else
                 {
-                    return this.Ok(new { Success = true, message = "Notes records found", notesdata = noteResult });
+                    return this.Ok(new { Success = true, message = "Notes records found of the user", notesdata = noteResult });
                 }
                 
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteNotesOfUser(long NotesId)
+        {
+            try
+
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if (this.notesBL.DeleteNotesOfUser(NotesId))
+                {
+                    return this.Ok(new { Success = true, message = "Deleted successfully.." });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
 

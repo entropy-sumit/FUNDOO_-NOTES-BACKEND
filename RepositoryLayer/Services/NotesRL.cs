@@ -77,9 +77,31 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        public IEnumerable<Notes> GetAllNotes()
+        public IEnumerable<Notes> GetAllNotes(long UserId)
         {
-            return fundoocontext.Notes.ToList();
+            return fundoocontext.Notes.Where(x => x.UserId==UserId).ToList();
+        }
+        public bool DeleteNotesOfUser(long NotesId)
+        {
+            try
+            {
+                var notecheck = this.fundoocontext.Notes.Where(x => x.NotesId == NotesId).FirstOrDefault();
+                this.fundoocontext.Notes.Remove(notecheck);
+                int result = this.fundoocontext.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+            catch
+            {
+                throw;
+            }
         }
 
        
