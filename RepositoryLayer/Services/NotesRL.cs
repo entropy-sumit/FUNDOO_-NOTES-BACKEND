@@ -98,10 +98,38 @@ namespace RepositoryLayer.Services
                 }
                 
             }
-            catch
+            catch(Exception)
             {
                 throw;
             }
+        }
+        public string Archieve(long NotesId)
+        {
+            try
+            {
+                var archive = this.fundoocontext.Notes.Where(s => s.NotesId == NotesId).FirstOrDefault();
+                if (archive.Archieve == true)
+                {
+                    archive.Archieve = false;
+                    this.fundoocontext.SaveChanges();
+                    return "note archieved";
+                }
+
+
+                else
+                {
+                    archive.Archieve = true;
+                    this.fundoocontext.SaveChanges();
+                    return "note is now unarchieved";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
        

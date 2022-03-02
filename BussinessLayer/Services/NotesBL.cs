@@ -59,6 +59,17 @@ namespace BussinessLayer.Services
                 throw;
             }
         }
+        public string Archieve(long NotesId)
+        {
+            try
+            {
+                return this.notesRL.Archieve(NotesId);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
 
 
 

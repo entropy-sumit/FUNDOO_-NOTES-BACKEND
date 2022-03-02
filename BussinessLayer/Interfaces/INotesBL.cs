@@ -12,5 +12,7 @@ namespace BussinessLayer.Interfaces
         public UserNotes UpdateNotes(UserNotes notes,long NotesId);
         public IEnumerable<Notes> GetAllNotes(long UserId);
         public bool DeleteNotesOfUser(long NotesId);
+        public string Archieve(long NotesId);
+
     }
 }

@@ -77,7 +77,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet("AllNotes")]
-        public IActionResult GetAllNotes(long UserId)
+        public IActionResult GetAllNotes()
         {
             try
             {
@@ -98,7 +98,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-        [HttpDelete]
+        [HttpDelete("DeleteNotes")]
         public IActionResult DeleteNotesOfUser(long NotesId)
         {
             try
@@ -113,6 +113,24 @@ namespace FundooNotes.Controllers
                 {
                     return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
                 }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+        [HttpPut("Archieve")]
+        public IActionResult Archieve(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notesBL.Archieve(NotesId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, message = result });
+                }
+                return this.BadRequest(new { Status = false, message = result });
             }
             catch (Exception ex)
             {
