@@ -70,6 +70,29 @@ namespace BussinessLayer.Services
                 throw;
             }
         }
+        public string Pinned(long NotesId)
+        {
+            try
+            {
+                return this.notesRL.Pinned(NotesId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        public string TrashedNotes(long NotesId)
+        {
+            try
+            {
+                return this.notesRL.TrashedNotes(NotesId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
 
