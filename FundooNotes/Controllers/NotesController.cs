@@ -29,13 +29,14 @@ namespace FundooNotes.Controllers
             
         }
         
-        [HttpPost("CreateNotes")]
+        [HttpPost("Create")]
         public IActionResult GenerateNote(UserNotes notes)
         {
            
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                //var data = this.notesBL.GenerateNote(notes, userId);
                 if (this.notesBL.GenerateNote(notes,userId))
                 {
                     return this.Ok(new { Success = true, message = "New Note created successfully" });
@@ -50,7 +51,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, Message = ex.InnerException.Message });
             }
         }
-        [HttpPut("UpdateNotes")]
+        [HttpPut("Update")]
 
         public IActionResult UpdatesNotes(UserNotes notes,long NotesId)
         {
@@ -98,7 +99,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-        [HttpDelete("DeleteNotes")]
+        [HttpDelete("Delete")]
         public IActionResult DeleteNotesOfUser(long NotesId)
         {
             try
@@ -107,7 +108,7 @@ namespace FundooNotes.Controllers
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 if (this.notesBL.DeleteNotesOfUser(NotesId))
                 {
-                    return this.Ok(new { Success = true, message = "Deleted successfully.." });
+                    return this.Ok(new { Success = true, message = "Deleted successfully" });
                 }
                 else
                 {
@@ -162,7 +163,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-        [HttpPut("TrashNotes")]
+        [HttpPut("Trash")]
         public IActionResult TrashedNotes(long NotesId)
         {
             try
@@ -204,6 +205,30 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
+        }
+        [HttpPut("BGImage")]
+        public IActionResult BGImage(long NotesId, IFormFile image)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if(this.notesBL.BGImage(NotesId, image))
+                {
+                    return this.Ok(new { Status = true, message = "success" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, message = "failed" });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+
+
         }
 
     }
