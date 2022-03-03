@@ -93,6 +93,17 @@ namespace BussinessLayer.Services
                 throw;
             }
         }
+        public string AddColor(long NotesId, string color)
+        {
+            try
+            {
+                return this.notesRL.AddColor(NotesId, color);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
 
 
 
