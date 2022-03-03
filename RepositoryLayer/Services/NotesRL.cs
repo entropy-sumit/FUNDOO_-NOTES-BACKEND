@@ -26,6 +26,7 @@ namespace RepositoryLayer.Services
                 Notes newNotes = new Notes();
 
                 newNotes.UserId = userId;
+                
                 newNotes.Title = notes.Title;
                 newNotes.Body = notes.Body;
                 newNotes.Reminder = notes.Reminder;
@@ -182,6 +183,27 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public string AddColor(long NotesId,string color)
+        {
+            try
+            {
+                var addcolor = this.fundoocontext.Notes.Where(x => x.NotesId == NotesId).FirstOrDefault();
+                if(addcolor.Color==null)
+                {
+                    addcolor.Color = color;
+                    this.fundoocontext.SaveChanges();
+                    return "color is added";
+                }
+                else
+                {
+                    return "color is already added";
+                }
+            }
+            catch(Exception)
+            {
                 throw;
             }
         }

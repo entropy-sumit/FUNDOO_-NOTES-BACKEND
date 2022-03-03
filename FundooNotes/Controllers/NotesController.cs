@@ -76,7 +76,7 @@ namespace FundooNotes.Controllers
 
         }
 
-        [HttpGet("AllNotes")]
+        [HttpGet("AllNotesofUser")]
         public IActionResult GetAllNotes()
         {
             try
@@ -130,7 +130,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, message = result });
                 }
-                return this.BadRequest(new { Status = false, message = result });
+                else
+                {
+                    return this.BadRequest(new { Status = false, message = result });
+                }
             }
             catch (Exception ex)
             {
@@ -148,7 +151,11 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, message = result });
                 }
-                return this.BadRequest(new { Status = false, message = result });
+                else
+                {
+                    return this.BadRequest(new { Status = false, message = result });
+                }
+                
             }
             catch (Exception ex)
             {
@@ -166,12 +173,38 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, message = result });
                 }
-                return this.BadRequest(new { Status = false, message = result });
+                else
+                {
+                    return this.BadRequest(new { Status = false, message = result });
+                }
             }
             catch (Exception ex)
             {
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
+        [HttpPut("Color")]
+        public IActionResult AddColor(long NotesId, string color)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notesBL.AddColor(NotesId, color);
+                if (result!=color)
+                {
+                    return this.Ok(new { Status = true, message = result  });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, message = result });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+
     }
 }

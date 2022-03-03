@@ -6,7 +6,6 @@ namespace CommonLayer.Models
 {
     public class UserNotes
     {
-       
         public string Title { get; set; }
         public string Body { get; set; }
         public bool IsPinned { get; set; }

@@ -16,5 +16,6 @@ namespace RepositoryLayer.Interfaces
         public string Archieve(long NotesId);
         public string Pinned(long NotesId);
         public string TrashedNotes(long NotesId);
+        public string AddColor(long NotesId, string color);
     }
 }
