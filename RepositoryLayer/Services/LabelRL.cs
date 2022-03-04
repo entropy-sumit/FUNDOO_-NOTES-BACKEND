@@ -46,6 +46,40 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public IEnumerable<Label> GetlabelByNotesId(long NotesId)
+        {
+            try
+            {
+                var response= this.fundoocontext.LabelTable.Where(x => x.NotesId == NotesId).ToList();
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool DeleteLabel(long labelId)
+        {
+            try
+            {
+                var check = this.fundoocontext.LabelTable.Where(x => x.LabelId == labelId).FirstOrDefault();
+                this.fundoocontext.LabelTable.Remove(check);
+                int result = this.fundoocontext.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }
