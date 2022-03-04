@@ -218,7 +218,7 @@ namespace RepositoryLayer.Services
                 {
                     Account account = new Account
                     (
-                    _configure["CloudinaryAccount:cloud_Name"],
+                    _configure["CloudinaryAccount:cloud_name"],
                     _configure["CloudinaryAccount:api_key"],
                     _configure["CloudinaryAccount:api_secret"]
                     );
