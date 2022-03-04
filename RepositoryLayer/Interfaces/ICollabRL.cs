@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interfaces
     {
         public bool CollaborationMethod(CollabModel collab, long UserId);
         public IEnumerable<Collaborator> GetCollabsByNoteId(long NotesId);
+        public bool DeleteCollab(long NotesId);
     }
 }
