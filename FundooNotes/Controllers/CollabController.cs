@@ -44,6 +44,27 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        [HttpGet("Detail")]
+        public IActionResult  GetCollabsByNoteId(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var notesid = this.collabBL.GetCollabsByNoteId(NotesId);
+                if (notesid != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Collaboration Found", data = notesid });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Collaboration not Found " });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message =  ex.InnerException.Message });
+            }
+        }
 
     }
 }
