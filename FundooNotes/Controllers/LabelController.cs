@@ -43,6 +43,48 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
+        [HttpGet("Detail")]
+        public IActionResult GetlabelByNotesId(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var notesid = this.labelBL.GetlabelByNotesId(NotesId);
+                if (notesid != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Label Found successfully", data = notesid });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Label  not Found " });
+                }
+            }
+            catch(Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+        [HttpDelete("Delete")]
+        public IActionResult DeleteLabel(long labelId)
+        {
+            try
+
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if (this.labelBL.DeleteLabel(labelId))
+                {
+                    return this.Ok(new { Success = true, message = "label Deleted successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Such label Found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
 
 
     }
