@@ -22,7 +22,7 @@ namespace FundooNotes.Controllers
 
 
         }
-        [HttpPut("User")]
+        [HttpPost("Add")]
         public IActionResult CollaborationMethod(CollabModel collab)
         {
             try
@@ -63,6 +63,27 @@ namespace FundooNotes.Controllers
             catch (Exception ex)
             {
                 return this.BadRequest(new { Status = false, message =  ex.InnerException.Message });
+            }
+        }
+        [HttpDelete("Delete")]
+        public IActionResult DeleteCollab(long NotesId)
+        {
+            try
+
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if (this.collabBL.DeleteCollab(NotesId))
+                {
+                    return this.Ok(new { Success = true, message = "collab Deleted successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
 
