@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BussinessLayer.Interfaces
+namespace RepositoryLayer.Interfaces
 {
-    public interface ICollabBL
+   public interface ICollabRL
     {
         public bool CollaborationMethod(CollabModel collab, long UserId);
     }
