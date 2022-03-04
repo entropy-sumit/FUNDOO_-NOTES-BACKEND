@@ -209,23 +209,22 @@ namespace FundooNotes.Controllers
         [HttpPut("BGImage")]
         public IActionResult BGImage(long NotesId, IFormFile image)
         {
-            try
             {
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                if(this.notesBL.BGImage(NotesId, image))
+                try
                 {
-                    return this.Ok(new { Status = true, message = "success" });
+                    long userId = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
+                    var result = this.notesBL.BGImage(NotesId,image);
+                    if (result == true)
+                    {
+                        return this.Ok(new { isSuccess = true, message = "BGImage Added Successfully!", data = result });
+                    }
+                    else
+                        return this.BadRequest(new { isSuccess = false, message = " BGImage not Added!" });
                 }
-                else
+                catch (Exception ex)
                 {
-                    return this.BadRequest(new { Status = false, message = "failed" });
+                    return this.BadRequest(new { Status = false, isSuccess = false, message = ex.InnerException.Message });
                 }
-
-
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
 
 
