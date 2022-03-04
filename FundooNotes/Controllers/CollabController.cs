@@ -74,7 +74,7 @@ namespace FundooNotes.Controllers
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 if (this.collabBL.DeleteCollab(NotesId))
                 {
-                    return this.Ok(new { Success = true, message = "collab Deleted successfully" });
+                    return this.Ok(new { Success = true, message = "Collab Deleted successfully" });
                 }
                 else
                 {
