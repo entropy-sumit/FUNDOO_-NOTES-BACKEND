@@ -213,25 +213,30 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var notes = this.fundoocontext.Notes.Where(x => x.NotesId == NotesId).FirstOrDefault();
-                if (notes != null)
+                if(NotesId>0)
                 {
-                    Account account = new Account
-                    (
-                    _configure["CloudinaryAccount:cloud_name"],
-                    _configure["CloudinaryAccount:api_key"],
-                    _configure["CloudinaryAccount:api_secret"]
-                    );
-                    var path = image.OpenReadStream();
-                    Cloudinary cloudinary = new Cloudinary(account);
-                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    var notes = this.fundoocontext.Notes.Where(x => x.NotesId == NotesId).FirstOrDefault();
+                    if (notes!=null)
                     {
-                        File = new FileDescription(image.FileName, path)
-                    };
-                    var uploadResult = cloudinary.Upload(uploadParams);
-                    fundoocontext.Notes.Attach(notes);
-                    notes.BgImage = uploadResult.Url.ToString();
-                    fundoocontext.SaveChanges();
+                        Account account = new Account
+                        (
+                        _configure["CloudinaryAccount:cloud_name"],
+                        _configure["CloudinaryAccount:api_key"],
+                        _configure["CloudinaryAccount:api_secret"]
+                        );
+                        var path = image.OpenReadStream();
+                        Cloudinary cloudinary = new Cloudinary(account);
+                        ImageUploadParams uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(image.FileName, path)
+                        };
+                        var uploadResult = cloudinary.Upload(uploadParams);
+                        fundoocontext.Notes.Attach(notes);
+                        notes.BgImage = uploadResult.Url.ToString();
+                        fundoocontext.SaveChanges();
+                        return true;
+                       
+                    }
                     return true;
                 }
                 else
