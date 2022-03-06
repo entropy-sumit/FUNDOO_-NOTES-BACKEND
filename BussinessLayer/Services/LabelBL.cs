@@ -51,6 +51,17 @@ namespace BussinessLayer.Services
             }
 
         }
+        public LabelModel UpdateLabel(LabelModel labelModel, long labelId)
+        {
+            try
+            {
+                return labelRL.UpdateLabel(labelModel, labelId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
     }
