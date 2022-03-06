@@ -80,6 +80,33 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public LabelModel UpdateLabel(LabelModel labelModel, long labelId)
+        {
+            try
+            {
+                var update = this.fundoocontext.LabelTable.Where(x => x.LabelId == labelId).FirstOrDefault();
+                if (update != null)
+                {
+                    update.LabelName = labelModel.LabelName;
+                    update.NotesId = labelModel.NotesId;
+
+                }
+                var result = this.fundoocontext.SaveChanges();
+                if (result > 0)
+                {
+                    return labelModel;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

@@ -85,6 +85,28 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
+        [HttpPut("Update")]
+        public IActionResult UpdateLabel(LabelModel labelModel, long labelId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.labelBL.UpdateLabel(labelModel, labelId);
+                if (result != null)
+                {
+                    return this.Ok(new { Success = true, message = " updated succes", Updated = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Such Registration Found" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
 
 
     }
