@@ -250,6 +250,10 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public IEnumerable<Notes> GetAll()
+        {
+            return fundoocontext.Notes.ToList();
+        }
 
     }
 }

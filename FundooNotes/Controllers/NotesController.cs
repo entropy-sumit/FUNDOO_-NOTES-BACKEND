@@ -3,12 +3,16 @@ using CommonLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using RepositoryLayer.Context;
+using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
@@ -22,9 +26,15 @@ namespace FundooNotes.Controllers
         
        
         private readonly INotesBL notesBL;
-        public NotesController(INotesBL notesBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
+        private readonly FundooContext fundooContext;
+        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext)
         {
             this.notesBL = notesBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.fundooContext = fundooContext;
             
             
         }
@@ -77,7 +87,7 @@ namespace FundooNotes.Controllers
 
         }
 
-        [HttpGet("AllNotesofUser")]
+        [HttpGet("AllDetail")]
         public IActionResult GetAllNotes()
         {
             try
@@ -120,7 +130,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-        [HttpPut("Archieve")]
+        [HttpPut("IsArchieve")]
         public IActionResult Archieve(long NotesId)
         {
             try
@@ -141,7 +151,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-        [HttpPut("Pinned")]
+        [HttpPut("IsPinned")]
         public IActionResult Pinned(long NotesId)
         {
             try
@@ -163,7 +173,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
-        [HttpPut("Trash")]
+        [HttpPut("IsTrash")]
         public IActionResult TrashedNotes(long NotesId)
         {
             try
@@ -229,6 +239,29 @@ namespace FundooNotes.Controllers
 
 
         }
+        [HttpGet("AllNotes")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                
+                var noteResult = this.notesBL.GetAll();
+                if (noteResult == null)
+                {
+                    return this.BadRequest(new { Success = false, message = " Notes records not found in DB" });
+                }
+                else
+                {
+                    return this.Ok(new { Success = true, message = "Notes records found of the user", notesdata = noteResult });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+       
 
     }
 }

@@ -116,6 +116,17 @@ namespace BussinessLayer.Services
                 throw;
             }
         }
+        public IEnumerable<Notes> GetAll()
+        {
+            try
+            {
+                return this.notesRL.GetAll();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
 
 
 
