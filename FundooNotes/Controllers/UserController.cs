@@ -108,7 +108,30 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { isSuccess = false, message = e.InnerException.Message });
             }
         }
-       
+        [HttpGet("Redis")]
+        public async Task<IActionResult> GetAllUserUsingRedisCache()
+        {
+            var cacheKey = "UserList";
+            string serializedUserList;
+            var userList = new List<User>();
+            var redisUserList = await distributedCache.GetAsync(cacheKey);
+            if (redisUserList != null)
+            {
+                serializedUserList = Encoding.UTF8.GetString(redisUserList);
+                userList = JsonConvert.DeserializeObject<List<User>>(serializedUserList);
+            }
+            else
+            {
+                userList = await fundooContext.UserTables.ToListAsync();
+                serializedUserList = JsonConvert.SerializeObject(userList);
+                redisUserList = Encoding.UTF8.GetBytes(serializedUserList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisUserList, options);
+            }
+            return Ok(userList);
+        }
 
 
     }
