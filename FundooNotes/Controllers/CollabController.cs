@@ -100,7 +100,30 @@ namespace FundooNotes.Controllers
             }
            
         }
-        
+        [HttpGet("Redis")]
+        public async Task<IActionResult> GetAllLabelUsingRedisCache()
+        {
+            var cacheKey = "CollabList";
+            string serializedCollabList;
+            var collabList = new List<Collaborator>();
+            var redisCollabList = await distributedCache.GetAsync(cacheKey);
+            if (redisCollabList != null)
+            {
+                serializedCollabList = Encoding.UTF8.GetString(redisCollabList);
+                collabList = JsonConvert.DeserializeObject<List<Collaborator>>(serializedCollabList);
+            }
+            else
+            {
+                collabList = await fundooContext.CollabTable.ToListAsync();
+                serializedCollabList = JsonConvert.SerializeObject(collabList);
+                redisCollabList = Encoding.UTF8.GetBytes(serializedCollabList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisCollabList, options);
+            }
+            return Ok(collabList);
+        }
     } 
 
     
