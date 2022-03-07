@@ -95,6 +95,7 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { isSuccess = false, message = e.InnerException.Message });
             }
         }
+        
 
     }
 }

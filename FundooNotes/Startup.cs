@@ -120,6 +120,7 @@ namespace FundooNotes
             //Label services
             services.AddTransient<ILabelBL, LabelBL>();
             services.AddTransient<ILabelRL, LabelRL>();
+           
 
 
         }

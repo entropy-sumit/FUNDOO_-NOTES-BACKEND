@@ -19,5 +19,6 @@ namespace RepositoryLayer.Interfaces
         public string TrashedNotes(long NotesId);
         public string AddColor(long NotesId, string color);
         public bool BGImage(long NotesId, IFormFile image);
+        public IEnumerable<Notes> GetAll();
     }
 }
