@@ -3,9 +3,16 @@ using CommonLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using RepositoryLayer.Context;
+using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
@@ -16,9 +23,15 @@ namespace FundooNotes.Controllers
     public class CollabController : ControllerBase
     {
         private readonly ICollabBL collabBL;
-        public CollabController(ICollabBL collabBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
+        private readonly FundooContext fundooContext;
+        public CollabController(ICollabBL collabBL, IMemoryCache memoryCache, IDistributedCache distributedCache, FundooContext fundooContext)
         {
             this.collabBL = collabBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.fundooContext = fundooContext;
 
 
         }
@@ -28,7 +41,7 @@ namespace FundooNotes.Controllers
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                if (this.collabBL.CollaborationMethod(collab,userId))
+                if (this.collabBL.CollaborationMethod(collab, userId))
                 {
                     return this.Ok(new { Status = true, Message = "Note Shared successfully" });
                 }
@@ -37,7 +50,7 @@ namespace FundooNotes.Controllers
                     return this.BadRequest(new { Status = false, Message = "You Do not have permission" });
 
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -45,7 +58,7 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpGet("Detail")]
-        public IActionResult  GetCollabsByNoteId(long NotesId)
+        public IActionResult GetCollabsByNoteId(long NotesId)
         {
             try
             {
@@ -62,7 +75,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { Status = false, message =  ex.InnerException.Message });
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
         [HttpDelete("Delete")]
@@ -85,7 +98,10 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
+           
         }
+        
+    } 
 
-    }
+    
 }
